@@ -52,12 +52,14 @@ const MoneyTrack = () => {
           <input
             type='text'
             placeholder='Product'
+            required
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <input
             type='number'
             placeholder='Price'
+            required
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
@@ -65,6 +67,7 @@ const MoneyTrack = () => {
         <div className='basic'>
           <input
             type='datetime-local'
+            required
             value={datetime}
             onChange={(e) => setDatetime(e.target.value)}
           />
@@ -73,6 +76,7 @@ const MoneyTrack = () => {
           <input
             type='text'
             placeholder='Description'
+            required
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
