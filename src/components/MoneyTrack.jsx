@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const MoneyTrack = () => {
   const [name, setName] = useState();
   const [price, setPrice] = useState();
   const [datetime, setDatetime] = useState();
   const [description, setDescription] = useState();
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    getTransactions().then(setTransactions);
+  }, [setTransactions]);
+
+  const getTransactions = async () => {
+    const url = "http://localhost:8000/api/transactions";
+    const response = await fetch(url);
+    return response.json();
+  };
 
   const addNewTransaction = (e) => {
     e.preventDefault();
@@ -26,11 +37,14 @@ const MoneyTrack = () => {
     });
   };
 
+  let balance = 0;
+  for (const transaction of transactions) {
+    balance = balance + transaction.price;
+  }
+
   return (
     <main>
-      <h1>
-        $400<span>.00</span>
-      </h1>
+      <h1>₹{balance}</h1>
       <form onSubmit={addNewTransaction}>
         <div className='basic'>
           <input
@@ -64,36 +78,25 @@ const MoneyTrack = () => {
         <button type='submit'>Add New Transaction</button>
       </form>
       <div className='transactions'>
-        <div className='transaction'>
-          <div className='left'>
-            <div className='name'>TV</div>
-            <div className='description'>Its a new TV</div>
-          </div>
-          <div className='right'>
-            <div className='price red'>-500</div>
-            <div className='datetime'>2022-12-20 03:50</div>
-          </div>
-        </div>
-        <div className='transaction'>
-          <div className='left'>
-            <div className='name'>Phone</div>
-            <div className='description'>Its a new Phone</div>
-          </div>
-          <div className='right'>
-            <div className='price green'>+500</div>
-            <div className='datetime'>2022-12-20 03:55</div>
-          </div>
-        </div>
-        <div className='transaction'>
-          <div className='left'>
-            <div className='name'>Car</div>
-            <div className='description'>Its a new Car</div>
-          </div>
-          <div className='right'>
-            <div className='price red'>-5000</div>
-            <div className='datetime'>2022-12-20 03:59</div>
-          </div>
-        </div>
+        {transactions.length > 0 &&
+          transactions.map((transaction) => (
+            <div className='transaction'>
+              <div className='left'>
+                <div className='name'>{transaction.name}</div>
+                <div className='description'>{transaction.description}</div>
+              </div>
+              <div className='right'>
+                <div
+                  className={
+                    "price" + (transaction.price < 0 ? "red" : "green")
+                  }
+                >
+                  ₹ {transaction.price}
+                </div>
+                <div className='datetime'>{transaction.datetime}</div>
+              </div>
+            </div>
+          ))}
       </div>
     </main>
   );
