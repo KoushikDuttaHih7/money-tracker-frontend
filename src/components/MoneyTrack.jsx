@@ -1,18 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 
 const MoneyTrack = () => {
+  const [name, setName] = useState();
+  const [price, setPrice] = useState();
+  const [datetime, setDatetime] = useState();
+  const [description, setDescription] = useState();
+
+  const addNewTransaction = (e) => {
+    e.preventDefault();
+    const url = "http://localhost:8000/api/transaction";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ name, price, description, datetime }),
+    }).then((response) => {
+      response.json().then((json) => {
+        setName("");
+        setPrice("");
+        setDatetime("");
+        setDescription("");
+        console.log("result", json);
+      });
+    });
+  };
+
   return (
     <main>
       <h1>
         $400<span>.00</span>
       </h1>
-      <form>
+      <form onSubmit={addNewTransaction}>
         <div className='basic'>
-          <input type='text' placeholder='Product' />
-          <input type='datetime-local' />
+          <input
+            type='text'
+            placeholder='Product'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type='text'
+            placeholder='Price'
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+        <div className='basic'>
+          <input
+            type='datetime-local'
+            value={datetime}
+            onChange={(e) => setDatetime(e.target.value)}
+          />
         </div>
         <div className='description'>
-          <input type='text' placeholder='Description' />
+          <input
+            type='text'
+            placeholder='Description'
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
         <button type='submit'>Add New Transaction</button>
       </form>
