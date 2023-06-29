@@ -32,7 +32,8 @@ const MoneyTrack = () => {
         setPrice("");
         setDatetime("");
         setDescription("");
-        console.log("result", json);
+        // console.log("result", json);
+        window.location.reload(true);
       });
     });
   };
@@ -80,7 +81,7 @@ const MoneyTrack = () => {
       <div className='transactions'>
         {transactions.length > 0 &&
           transactions.map((transaction) => (
-            <div className='transaction'>
+            <div className='transaction' key={transaction._id}>
               <div className='left'>
                 <div className='name'>{transaction.name}</div>
                 <div className='description'>{transaction.description}</div>
@@ -88,7 +89,7 @@ const MoneyTrack = () => {
               <div className='right'>
                 <div
                   className={
-                    "price" + (transaction.price < 0 ? "red" : "green")
+                    "price " + (transaction.price < 0 ? "red" : "green")
                   }
                 >
                   ₹ {transaction.price}
