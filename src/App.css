@@ -7,6 +7,14 @@ body {
   color: #ddd;
 }
 
+.title {
+  text-align: center;
+  color: #fff;
+  font-size: 25px;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
 main {
   max-width: 360px;
   margin: 30px auto;
@@ -16,6 +24,7 @@ h1 {
   text-align: center;
   color: #fff;
   margin: 0;
+  font-size: 25px;
 }
 
 form {

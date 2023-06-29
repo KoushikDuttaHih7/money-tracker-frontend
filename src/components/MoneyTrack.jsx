@@ -45,6 +45,7 @@ const MoneyTrack = () => {
 
   return (
     <main>
+      <div className='title'>Your Expense Report</div>
       <h1>₹{balance}</h1>
       <form onSubmit={addNewTransaction}>
         <div className='basic'>
@@ -55,7 +56,7 @@ const MoneyTrack = () => {
             onChange={(e) => setName(e.target.value)}
           />
           <input
-            type='text'
+            type='number'
             placeholder='Price'
             value={price}
             onChange={(e) => setPrice(e.target.value)}
